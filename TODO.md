@@ -9,3 +9,9 @@
 * Catégories de produits
 * Lier relations_nations aux nations
 * ...
+
+# Liste des contraintes :
+
+
+# 20 Questions :
+1) 
