@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE IF EXISTS postgres;
+DROP DATABASE IF EXISTS bdd_project;
 --
--- Name: postgres; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: bdd_project; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE postgres WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'fr_FR.UTF-8';
+CREATE DATABASE bdd_project WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'fr_FR.UTF-8';
 
 
-ALTER DATABASE postgres OWNER TO postgres;
+ALTER DATABASE bdd_project OWNER TO postgres;
 
-\connect postgres
+\connect bdd_project
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -43,7 +43,7 @@ SET row_security = off;
 -- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
 --
 
-COMMENT ON DATABASE postgres IS 'default administrative connection database';
+COMMENT ON DATABASE bdd_project IS 'default administrative connection database';
 
 
 SET default_tablespace = '';
@@ -592,7 +592,7 @@ INSERT INTO public.nations (nom, nationalite_id) VALUES ('Etats-unis', 10);
 --
 
 INSERT INTO public.navires_type (type_id, name, cat) VALUES (4, 'Caravelle', 4);
-INSERT INTO public.navires_type (type_id, name, cat) VALUES (5, 'chaloupe', 1);
+INSERT INTO public.navires_type (type_id, name, cat) VALUES (5, 'Chaloupe', 1);
 INSERT INTO public.navires_type (type_id, name, cat) VALUES (6, 'Corvette', 2);
 INSERT INTO public.navires_type (type_id, name, cat) VALUES (7, 'Fregate', 4);
 INSERT INTO public.navires_type (type_id, name, cat) VALUES (3, 'Gabare', 2);
