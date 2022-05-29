@@ -4,16 +4,33 @@
 
 * Requetes :
  1) Récupérer le volume total d'une cargaison d'un navire
- 2) Afficher les nations en guerre
- 3) sous requete corr
+
+ 2) Afficher le nom des nations en guerre
+ SELECT n1.nom, n2.nom FROM nations n1 , nations n2 , relations_nations rn WHERE n1.nationalite_id = rn.nat_1_id AND n2.nationalite_id = rn.nat_2_id AND rn.relation = 'GUERRE'
+
+ 3) sous requete corr (La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités)
+SELECT * FROM navires n1 JOIN voyages v on n1.navire_id = v.navire_id WHERE n1.nationalite_id IN (SELECT n.nationalite_id FROM nations n, lien_nat_port lnp , ports p WHERE p.port_id = v.provenance_id AND n.nationalite_id = lnp.nat_id AND lnp.port_id = p.port_id)
+
  4) sous requete ds FROM
+SELECT AVG(max_pass) FROM (SELECT n1.navire_id, n1.nom ,n1.max_pass FROM voyages v1 NATURAL JOIN navires n1 WHERE v1.class_voy = 'INTERC') as "vn"
+
  5) sous requete ds WHERE
+
  6) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2)
+
  7) Les navires de chaques nations qui ont au moins une étape
+
  8) Moyenne des passagers maximums de tous les bateaux (toute nationalité confondue)
+
  9) Récupérer les voyages d'un navire
+
  10) Tous les bateaux arrivés à la date X du jour Y
+
  11) Récupérer le parcours d'un bateau entre une date X et une autre Y
+
+ 12) la liste des bateaux qui font un voyage avec une capacité maximale de cargaison
+
+ 13)
 
 * CSV de copie de données
 * Remplir README
