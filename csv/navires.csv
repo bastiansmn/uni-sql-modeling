@@ -1,0 +1,13 @@
+navire_id,type,nationalite_id,march_vol,max_pass,nom
+1,3,1,100,100,Sunny
+3,4,3,100,50,Usain Boat
+5,7,4,400,150,Black Pearl
+7,6,10,100,100,Revenge
+6,7,8,200,200,Hollandais Vollant
+8,2,10,200,200,HMS Intrépide
+9,8,10,300,200,HMS Endeavour
+10,5,9,100,50,Adrestia
+11,7,9,200,200,El Arca del Maestro
+12,7,1,200,250,Iphygénie
+13,6,1,100,150,Subtile
+14,7,5,300,300,Titanic II

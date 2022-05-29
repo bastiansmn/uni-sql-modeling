@@ -1,0 +1,5 @@
+voyage_id,destination_id,date_deb,date_fin,provenance_id,type_voy,class_voy,navire_id,nb_pass_courants
+6,9,1753-03-04,1754-01-10,11,LONG,INTERC,9,177
+8,6,1830-05-19,1830-06-12,8,LONG,EUROPE,7,100
+9,8,1779-06-01,1779-08-30,9,MOYEN,EUROPE,8,200
+10,9,1780-08-23,1780-09-01,4,COURT,EUROPE,13,150

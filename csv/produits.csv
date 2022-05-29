@@ -1,0 +1,13 @@
+prod_id,nom,est_perissable,volume
+1,Oranges de Porto,true,0.5
+2,Beurre,true,0.2
+3,Boisseau de Sel,false,0.9
+4,Chandelles,false,0.4
+5,Savon,false,0.3
+6,Sucre,false,0.8
+7,Rhum,false,1.7
+8,Café,false,0.8
+9,Tabac,false,0.4
+10,Colin,true,0.2
+11,Dattes,true,0.1
+12,Olives,true,0.1

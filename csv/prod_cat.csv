@@ -1,0 +1,5 @@
+prod_cat_id,nom,description
+1,Durée de conservation,Nombre de jours avant péremption.
+2,Valeur au kilo,Prix (en EUR) pour un kilo du produit (solide).
+3,Valeur au litre,Prix (en EUR) pour un litre de produit (liquide)
+4,Poids en kilo,Poids (en kg) du produit.
