@@ -30,4 +30,4 @@ ALTER TABLE voyages
 
 ALTER TABLE voyages
 ADD CONSTRAINT validate_type_voy
-CHECK (validate_type_voy(voyages)=true);
+CHECK (validate_type_voy(voyages));

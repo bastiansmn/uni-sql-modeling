@@ -1,14 +1,23 @@
-* Ajouter un script SQL qui fait changer des bateaux de nationalité
-* Voir si durée de voyage doit être présente dans table `voyages`
-* Si navire pris par nation, set fin voyage null
-* Constraint type voyage selon distance
-* Si voyage = moyen, cargaison != périssable
-* Simplifier les étapes
-* Check nav.cat <= port.cat => peut mouiller
-* Commercer et/ou débaruqer quand dans ports alliés
-* Catégories de produits
-* Lier relations_nations aux nations
-* ...
+* Scripts :
+ 1) Création de voyage + étaps (cargaison comprise)
+ 2) Prise d'un bateau par une nation
+
+* Requetes :
+ 1) Récupérer le volume total d'une cargaison d'un navire
+ 2) Afficher les nations en guerre
+ 3) sous requete corr
+ 4) sous requete ds FROM
+ 5) sous requete ds WHERE
+ 6) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2)
+ 7) Les navires de chaques nations qui ont au moins une étape
+ 8) Moyenne des passagers maximums de tous les bateaux (toute nationalité confondue)
+ 9) Récupérer les voyages d'un navire
+ 10) Tous les bateaux arrivés à la date X du jour Y
+ 11) Récupérer le parcours d'un bateau entre une date X et une autre Y
+
+* CSV de copie de données
+* Remplir README
+* Revoir les contraintes
 
 # Liste des contraintes :
 - la cargaison de la depart = cargaison max du navire

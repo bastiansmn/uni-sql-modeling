@@ -7,6 +7,5 @@ Ce projet à pour but de proposer une modélisation SQL d'une situation complexe
 
 ## Groupe de projet :
 SOMON Bastian | 21956726
-Bouanem Yani Akli / 21962029
+Bouanem Yani Akli | 21962029
 
-...
