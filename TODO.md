@@ -1,9 +1,5 @@
-* Scripts :
- 1) Création de voyage + étaps (cargaison comprise)
- 2) Prise d'un bateau par une nation
-
 * Requetes :
- 1) Récupérer le volume total d'une cargaison d'un navire
+ 1) Récupérer le volume total d'une cargaison d'un navire (*Requête qui porte sur au moins trois tables*)
 ```sql
 SELECT n.nom, SUM(qc.quant*p.volume) AS volume 
 FROM navires n, voyages v, cargaison c, quant_carg qc, produits p 
@@ -14,7 +10,7 @@ WHERE n.navire_id=v.navire_id
 GROUP BY n.nom
 ```
 
- 2) Afficher le nom des nations en guerre
+ 2) Afficher le nom des nations en guerre (*Auto-jointure*)
 ```sql
 SELECT n1.nom, n2.nom 
 FROM nations n1 , nations n2 , relations_nations rn
@@ -23,7 +19,7 @@ WHERE n1.nationalite_id = rn.nat_1_id
   AND rn.relation = 'GUERRE'
 ```
 
- 4) sous requete corrélére (La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités)
+ 3) La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités (*sous-requête corrélée*)
 ```sql
 SELECT * 
 FROM navires n1 JOIN voyages v on n1.navire_id = v.navire_id 
@@ -36,7 +32,7 @@ WHERE n1.nationalite_id IN (
 )
 ```
 
- 5) sous requete ds FROM
+ 4) La moyenne des passagers maximaux sur les voyages intercontinentaux (*sous-requête dans le FROM*)
 ```sql
 SELECT AVG(max_pass) 
 FROM (
@@ -46,7 +42,7 @@ FROM (
 ) as "vn"
 ```
 
- 6) sous requete ds WHERE
+ 5) Toutes les nations qui ne sont pas en guerres. (*Sous-requête dans le WHERE*)
 ```sql
 SELECT * FROM navires nav WHERE nav.nationalite_id NOT IN (
     SELECT nat.nationalite_id
@@ -56,7 +52,25 @@ SELECT * FROM navires nav WHERE nav.nationalite_id NOT IN (
     )
 ```
 
- 8) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2)
+ 6) Les voyages qui comportent des produits périssables d'une valeur d'au moins 16€ le kilo.
+```sql
+SELECT DISTINCT p.prod_id, p.nom
+FROM voyages v, cargaison c, quant_carg qc, produits p, lien_produit_cat lpc, prod_cat pc
+WHERE v.voyage_id=c.voyage_id AND c.carg_id =qc.carg_id AND qc.prod_id=p.prod_id AND p.prod_id=lpc.prod_id AND lpc.cat_id=pc.prod_cat_id
+    AND pc.nom='Valeur au kilo'
+    AND p.est_perissable
+    AND lpc.valeur>=16
+```
+
+ 7) Les ports où il y a toujours en moyenne moins de passagers sortant que arrivants (*Requête statistiques*)
+```sql
+SELECT p.name
+FROM etapes e NATURAL JOIN ports p
+GROUP BY p.name
+HAVING AVG(e.pass_monte-e.pass_descendu) > 0
+```
+
+ 8) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2) (*Requête nécessitant GROUP BY et HAVING*)```sql
 ```sql
 SELECT pc.nom
 FROM produits p, lien_produit_cat lpc, prod_cat pc
@@ -66,12 +80,29 @@ GROUP BY pc.nom
 HAVING AVG(lpc.valeur) >= (MAX(lpc.valeur) + MIN(lpc.valeur)) / 2
 ```
 
- 9) Les navires dont tous les voyages ont au moins une étape
+ 9) Les navires dont tous les voyages ont au moins une étape (*Condition de totalité*)
 ```sql
-
+SELECT *
+FROM navires n
+WHERE NOT EXISTS(
+        SELECT *
+        FROM voyages v
+        WHERE v.navire_id=n.navire_id
+            AND 0 IN (
+                SELECT COUNT(*)
+                FROM etapes e
+                WHERE e.voyage_id=v.voyage_id
+                GROUP BY e.voyage_id
+            )
+    )
+    AND EXISTS(
+        SELECT *
+        FROM voyages v2
+        WHERE v2.navire_id=n.navire_id
+    );
 ```
 
- 10) Moyenne des passagers maximums de tous les bateaux (toute nationalité confondue)
+ 10) Moyenne des passagers maximums de tous les bateaux (toute nationalité confondue) (*Requête nécessitant le calcul de 2 agrégats*)
 ```sql
 SELECT AVG(nnM.max)
 FROM (SELECT MAX(n.max_pass)
@@ -80,13 +111,13 @@ WHERE n.type=nt.type_id
 GROUP BY nt.cat) as nnM;
 ```
 
- 11) Récupérer les voyages d'un navire
+ 11) Récupérer les voyages d'un navire (*LEFT JOIN*)
 ```sql
 SELECT v.voyage_id
 FROM voyages v LEFT JOIN navires n on n.navire_id = v.navire_id
 ```
 
- 12) Récupérer le parcours des bateaux
+ 12) Récupérer le parcours des bateaux (*Requête récursive*)
 ```sql
 WITH RECURSIVE Access(prov, dest) AS
 (
@@ -99,7 +130,7 @@ WITH RECURSIVE Access(prov, dest) AS
 SELECT * FROM Access;
 ```
 
- 13) Les bateaux qui ont touts leurs voyages intercontinentaux
+ 13) Les bateaux qui ont touts leurs voyages intercontinentaux (*Condition de totalité*)
 ```sql
 -- Version corrélée
 SELECT n.nom
@@ -115,7 +146,7 @@ WHERE n.navire_id=v.navire_id
 
 ```
 
- 14) Le nombre de passagers transportés vers chaque continents pour les voyages étant arrivés en 1754
+ 14) Le nombre de passagers transportés vers chaque continents pour les voyages étant arrivés en 1754 (*Requête de statistiques*)
 ```sql
 SELECT p.continent, SUM(v.nb_pass_courants)
 FROM voyages v, ports p
@@ -124,7 +155,7 @@ WHERE v.destination_id=p.port_id
 GROUP BY p.continent
 ```
 
- 15) La quantité totale de produits disponibles dans chaque ports trié par le port le plus important
+ 15) La quantité totale de produits disponibles dans chaque ports trié par le port le plus important (*Requête de statistiques*)
 ```sql
 SELECT p.name, SUM(qp.quant) as total
 FROM quant_port qp NATURAL JOIN ports p
@@ -132,7 +163,7 @@ GROUP BY p.name
 ORDER BY total DESC 
 ```
 
- 16) La nation qui a le plus de navires dont la catégorie est supérieure ou égale à 4
+ 16) La nation qui a le plus de navires dont la catégorie est supérieure ou égale à 4 (*Requête de statistiques*)
 ```sql
 SELECT nat.nom, COUNT(*) as c
 FROM nations nat, navires nav, navires_type nt
