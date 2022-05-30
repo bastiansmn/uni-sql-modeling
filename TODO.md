@@ -23,7 +23,7 @@ WHERE n1.nationalite_id = rn.nat_1_id
   AND rn.relation = 'GUERRE'
 ```
 
- 4) sous requete corr (La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités)
+ 4) sous requete corrélére (La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités)
 ```sql
 SELECT * 
 FROM navires n1 JOIN voyages v on n1.navire_id = v.navire_id 
