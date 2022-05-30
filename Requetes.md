@@ -21,7 +21,7 @@ WHERE n1.nationalite_id = rn.nat_1_id
 
  3) La liste des navires dont tout les port de pays de departs de leur voyages sont identiques a leur nationalités (*sous-requête corrélée*)
 ```sql
-SELECT * 
+SELECT n1.nom
 FROM navires n1 JOIN voyages v on n1.navire_id = v.navire_id 
 WHERE n1.nationalite_id IN (
     SELECT n.nationalite_id 
@@ -42,9 +42,9 @@ FROM (
 ) as "vn"
 ```
 
- 5) Toutes les nations qui ne sont pas en guerres. (*Sous-requête dans le WHERE*)
+ 5) Toutes les bateaux de nations qui ne sont pas en guerres. (*Sous-requête dans le WHERE*)
 ```sql
-SELECT * FROM navires nav WHERE nav.nationalite_id NOT IN (
+SELECT nav.nom FROM navires nav WHERE nav.nationalite_id NOT IN (
     SELECT nat.nationalite_id
     FROM nations nat, relations_nations rn
     WHERE (nat.nationalite_id = rn.nat_1_id OR nat.nationalite_id = rn.nat_2_id)
@@ -70,7 +70,7 @@ GROUP BY p.name
 HAVING AVG(e.pass_monte-e.pass_descendu) > 0
 ```
 
- 8) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2) (*Requête nécessitant GROUP BY et HAVING*)```sql
+ 8) Nombre de produits dans une catégorie où la répartition des valeurs dans la catégorie est linéaire ou exponentielle (AVG() >= ((MAX() - MIN()) / 2) (*Requête nécessitant GROUP BY et HAVING*)
 ```sql
 SELECT pc.nom
 FROM produits p, lien_produit_cat lpc, prod_cat pc
@@ -82,7 +82,7 @@ HAVING AVG(lpc.valeur) >= (MAX(lpc.valeur) + MIN(lpc.valeur)) / 2
 
  9) Les navires dont tous les voyages ont au moins une étape (*Condition de totalité*)
 ```sql
-SELECT *
+SELECT n.nom
 FROM navires n
 WHERE NOT EXISTS(
         SELECT *
@@ -141,9 +141,6 @@ WHERE n.navire_id=v.navire_id
         FROM voyages v1
         WHERE v1.voyage_id=v.voyage_id AND v1.class_voy!='INTERC'
     )
-
--- Version avec agrégation
-
 ```
 
  14) Le nombre de passagers transportés vers chaque continents pour les voyages étant arrivés en 1754 (*Requête de statistiques*)
